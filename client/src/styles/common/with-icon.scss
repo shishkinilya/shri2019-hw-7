@@ -1,0 +1,35 @@
+.WithIcon {
+  display: flex;
+
+  &_gap_sm {
+    --with-icon-gap: 6px;
+  }
+
+  &_gap_md {
+    --with-icon-gap: 8px;
+  }
+
+  &_gap_lg {
+    --with-icon-gap: 12px;
+  }
+
+  &_align_top {
+    align-items: flex-start;
+  }
+
+  &_align_center {
+    align-items: center;
+  }
+
+  &-Icon {
+    flex-shrink: 0;
+
+    &_position_left {
+      margin-right: var(--with-icon-gap);
+    }
+
+    &_position_right {
+      margin-left: var(--with-icon-gap);
+    }
+  }
+}

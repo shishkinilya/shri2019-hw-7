@@ -1,0 +1,103 @@
+@import 'styles/utils/mixins';
+@import 'styles/utils/variables';
+
+.FilesTable {
+  &-Row {
+    grid-template-rows: repeat(3, auto);
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 14px;
+    }
+  }
+
+  &-File {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  &-Arrow {
+    grid-row: 1 / 4;
+    grid-column: 4 / 5;
+
+    @include breakpoint($screen-lg) {
+      display: none;
+    }
+
+    svg {
+      fill: #e5e5e5;
+    }
+  }
+
+  &-Name {
+    grid-row: 1 / 2;
+    grid-column: 1 / 4;
+    padding-bottom: 4px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 12px;
+    }
+  }
+
+  &-NameLink {
+    display: inline-block;
+    color: var(--base-text-color);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &-Message {
+    grid-row: 2 / 3;
+    grid-column: 1 / 4;
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 12px;
+    }
+  }
+
+  &-Hash {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    padding-top: 4px;
+    padding-bottom: 12px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 12px;
+    }
+  }
+
+  &-Author {
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+    padding-top: 4px;
+    padding-bottom: 12px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 12px;
+    }
+  }
+
+  &-Updated {
+    grid-row: 3 / 4;
+    grid-column: 3 / 4;
+    padding-top: 4px;
+    padding-bottom: 12px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 12px;
+      text-align: right;
+    }
+  }
+
+}

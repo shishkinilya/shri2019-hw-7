@@ -1,0 +1,70 @@
+.Text {
+  &_type_h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  &_color_base {
+    color: var(--base-text-color);
+  }
+
+  &_color_link {
+    color: var(--link-text-color);
+  }
+
+  &_color_secondary {
+    color: var(--gray-7);
+  }
+
+  &_color_secondary-light {
+    color: var(--gray-6);
+  }
+
+  &_size_xxs {
+    font-size: var(--text-size-xxs);
+  }
+
+  &_size_xs {
+    font-size: var(--text-size-xs);
+  }
+
+  &_size_s {
+    font-size: var(--text-size-s);
+  }
+
+  &_size_m {
+    font-size: var(--text-size-m);
+  }
+
+  &_size_l {
+    font-size: var(--text-size-l);
+  }
+
+  &_size_xl {
+    font-size: var(--text-size-xl);
+  }
+
+  &_line-height_s {
+    line-height: var(--line-height-s);
+  }
+
+  &_line-height_m {
+    line-height: var(--line-height-m);
+  }
+
+  &_line-height_l {
+    line-height: var(--line-height-l);
+  }
+
+  &_weight_normal {
+    font-weight: var(--font-weight-normal);
+  }
+
+  &_align_left {
+    text-align: left;
+  }
+
+  &_align_right {
+    text-align: right;
+  }
+}

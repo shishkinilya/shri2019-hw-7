@@ -1,0 +1,40 @@
+.CodeView {
+  --background-line-added: #e6ffed;
+  --background-line-removed: #ffeef0;
+
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--mono-font-stack);
+
+  &-Line {
+    &_highlight_green {
+      background-color: var(--background-line-added);
+    }
+
+    &_highlight_red {
+      background-color: var(--background-line-removed);
+    }
+  }
+
+  &-LineNumber {
+    width: 1px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 24px;
+    text-align: right;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999999;
+  }
+
+  &-Code {
+    padding-top: 0;
+    padding-right: 16px;
+    padding-bottom: 0;
+    padding-left: 32px;
+    white-space: pre;
+  }
+
+}

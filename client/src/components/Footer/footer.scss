@@ -1,0 +1,36 @@
+@import 'styles/utils/mixins';
+@import 'styles/utils/variables';
+
+.Footer {
+  display: flex;
+  flex-wrap: wrap;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--gray-0);
+  padding-top: 17px;
+  padding-right: 10px;
+  padding-bottom: 14px;
+  padding-left: 10px;
+  color: var(--gray-7);
+  font-size: 13px;
+  line-height: 18px;
+
+  @include breakpoint($screen-lg) {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  &-Company {
+    margin-right: auto;
+  }
+
+  &-Stats {
+    display: flex;
+  }
+
+  &-Version {
+    @include breakpoint($screen-lg) {
+      margin-right: 32px;
+    }
+  }
+}

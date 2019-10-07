@@ -1,0 +1,66 @@
+@import "../../styles/utils/mixins";
+@import "../../styles/utils/variables";
+
+.Page {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--sans-serif-font-stack);
+
+  &-Container {
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+
+    @include breakpoint($screen-lg) {
+      margin-right: auto;
+      margin-left: auto;
+      max-width: var(--container-width-lg);
+      padding-right: 32px;
+      padding-left: 32px;
+    }
+  }
+
+  &-Streched {
+    &_xs {
+      margin-right: -16px;
+      margin-left: -16px;
+
+      @include breakpoint($screen-lg) {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
+
+  &-Header {
+    margin-bottom: 12px;
+  }
+
+  &-Main {
+    padding-bottom: 16px;
+  }
+
+  &-Footer {
+    margin-top: auto;
+  }
+
+  &-Breadcrumbs {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    @include breakpoint($screen-lg) {
+      margin-bottom: 12px;
+    }
+  }
+
+  &-Subheading {
+    margin-bottom: 16px;
+
+    @include breakpoint($screen-lg) {
+      margin-bottom: 18px;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@import 'styles/utils/mixins';
+@import 'styles/utils/variables';
+
+.Header {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--gray-0);
+
+  &-Inner {
+    display: flex;
+    padding-top: 19px;
+
+    @include breakpoint($screen-lg) {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+  }
+
+  &-Logo {
+    margin-right: 26px;
+
+    @include breakpoint($screen-lg) {
+      margin-right: 40px;
+    }
+  }
+
+  &-Dropdown {
+    margin-top: 5px;
+    margin-bottom: -1px;
+
+    @include breakpoint($screen-lg) {
+      margin-top: 4px;
+    }
+  }
+}

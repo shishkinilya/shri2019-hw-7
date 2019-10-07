@@ -1,0 +1,40 @@
+.Theme {
+  --container-width-lg: 1440px;
+
+  --sans-serif-font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --mono-font-stack: "PT Mono", monospace;
+
+  --link-text-color: #1774e9;
+  --accent-text-color: #ff3029;
+  --base-text-color: #000;
+
+  --accent-border-color: #ff4f49;
+  --accent-icon-color: #ff5668;
+
+  --gray-0: #f0f2f3;
+  --gray-1: #f2f2f2;
+  --gray-2: #f5f5f5;
+  --gray-3: #e6e6e6;
+  --gray-4: #e5e5e5;
+  --gray-5: #cccccc;
+  --gray-6: #b8bec3;
+  --gray-7: #7f8285;
+  --gray-8: #4f4f4f;
+  --gray-9: #434445;
+
+  --lightblue-1: #ebf6fd;
+  --lightblue-2: #fafbfc;
+
+  --text-size-xxs: 12px;
+  --text-size-xs: 13px;
+  --text-size-s: 14px;
+  --text-size-m: 16px;
+  --text-size-l: 20px;
+  --text-size-xl: 24px;
+
+  --line-height-s: 18px;
+  --line-height-m: 20px;
+  --line-height-l: 28px;
+
+  --font-weight-normal: 400;
+}

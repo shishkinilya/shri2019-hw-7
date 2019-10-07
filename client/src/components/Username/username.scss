@@ -1,0 +1,7 @@
+.Username {
+  display: inline-block;
+
+  &:first-letter {
+    color: var(--accent-text-color);
+  }
+}
