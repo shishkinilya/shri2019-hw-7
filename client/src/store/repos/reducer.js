@@ -4,6 +4,7 @@ import REPOS_ACTIONS from './actions';
 const initialState = {
   list: [],
   status: LOADING_STATUSES.SUCCESS,
+  currentRepository: '',
 };
 
 export default (state = initialState, action) => {
@@ -25,8 +26,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         list: [],
-        currentRepo: null,
         status: LOADING_STATUSES.FAIL,
+      };
+
+    case REPOS_ACTIONS.SET_CURRENT_REPOSITORY:
+      return {
+        ...state,
+        currentRepository: state.list.find(repository => repository === action.payload.repositoryId) || ''
       };
 
     default:

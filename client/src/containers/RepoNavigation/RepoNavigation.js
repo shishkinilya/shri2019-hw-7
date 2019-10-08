@@ -4,15 +4,28 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import fetchRepositoryContent from 'store/repository/fetchRepositoryContent';
+import { setCurrentPath } from 'store/repository/actions';
 
 import './files-table.scss';
 import { ReactComponent as DirectoryIcon } from './directory.svg';
 import { ReactComponent as FileCodeIcon } from './file-code.svg';
 
 class RepoNavigation extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.path !== prevProps.match.params.path) {
-      this.props.fetchRepositoryContent(this.props.match.params.repositoryId, 'master', this.props.match.params.path);
+  componentDidMount() {
+    const { repositoryId, path, branch } = this.props.match.params;
+
+    this.props.setCurrentPath(path);
+    this.props.fetchRepositoryContent(repositoryId, branch, path);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { path: prevPath } = prevProps.match.params;
+    const { repositoryId, path: currentPath } = this.props.match.params;
+    const { currentBranch } = this.props.repository;
+
+    if (prevPath !== currentPath) {
+      this.props.setCurrentPath(currentPath);
+      this.props.fetchRepositoryContent(repositoryId, currentBranch, currentPath);
     }
   }
 
@@ -84,6 +97,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchRepositoryContent,
+  setCurrentPath,
 }, dispatch);
 
 export default connect(

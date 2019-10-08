@@ -5,6 +5,7 @@ const initialState = {
   content: [],
   status: LOADING_STATUSES.SUCCESS,
   currentBranch: 'master',
+  currentPath: ''
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +28,12 @@ export default (state = initialState, action) => {
         ...state,
         content: [],
         status: LOADING_STATUSES.FAIL,
+      };
+
+    case REPOSITORY_ACTIONS.SET_CURRENT_PATH:
+      return {
+        ...state,
+        currentPath: action.payload.path,
       };
 
     default:

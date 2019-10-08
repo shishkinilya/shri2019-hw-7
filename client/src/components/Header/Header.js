@@ -6,7 +6,7 @@ import LOADING_STATUSES from 'constants/loadingStatuses';
 import './header.scss';
 import logo from './logo.svg'
 
-export default function Header({ className, repos, changeRepoHandler, currentRepo }) {
+export default function Header({ className, repos, changeRepoHandler }) {
   return (
     <header className={`Header ${className}`}>
       <div className="Header-Inner Page-Container">
@@ -23,12 +23,12 @@ export default function Header({ className, repos, changeRepoHandler, currentRep
         {/*    </svg>*/}
         {/*  </button>*/}
         {/*</div>*/}
-        <select onChange={changeRepoHandler} value={currentRepo}>
+        <select onChange={changeRepoHandler} value={repos.currentRepository}>
           {repos.status === LOADING_STATUSES.LOADING ? (
-            <option value={null}>Загрузка...</option>
+            <option>Загрузка...</option>
           ) : (
             <>
-              <option value={null}>Выберите репозиторий</option>
+              <option value=''>Выберите репозиторий</option>
               {repos.list.map((repo, index) => (
                 <option key={index} value={repo}>{repo}</option>
               ))}
