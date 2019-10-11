@@ -1,6 +1,6 @@
 const fs = require('fs');
 const fse = require('fs-extra');
-const { spawn } = require('child_process');
+const child = require('child_process');
 const { join } = require('path');
 const { promisify } = require('util');
 const { parseLsTreeLog } = require('./utils');
@@ -12,21 +12,21 @@ const getRepoList = dirPath => promisifiedReadDir(dirPath, 'utf8');
 const addRepo = (dirPath, { url }) => {
   const CHILD_PROCESS_TIMEOUT = 60 * 10 ** 3;
   return new Promise((resolve, reject) => {
-    const child = spawn('git', ['clone', url, '-q'], { cwd: dirPath });
+    const childProcess = child.spawn('git', ['clone', url, '-q'], { cwd: dirPath });
 
-    setTimeout(() => {
-      child.kill();
-      reject('Timeout exceeded');
-    }, CHILD_PROCESS_TIMEOUT);
+    // setTimeout(() => {
+    //   childProcess.kill();
+    //   reject('Timeout exceeded');
+    // }, CHILD_PROCESS_TIMEOUT);
 
-    child.stderr.on('data', error => reject(error.toString()));
-    child.on('close', () => resolve());
+    childProcess.stderr.on('data', error => reject(error.toString()));
+    childProcess.on('close', () => resolve());
   });
 };
 
 const getCommitList = (dirPath, { repositoryId, commitHash }) => {
   return new Promise((resolve, reject) => {
-    const child = spawn(
+    const childProcess = child.spawn(
       'git',
       ['log', '--pretty=format:{"commit": "%H", "author": "%aN", "date": "%at", "message": "%f"},', commitHash],
       {
@@ -35,16 +35,16 @@ const getCommitList = (dirPath, { repositoryId, commitHash }) => {
     );
     let result = '';
 
-    child.stdout.on('data', data => result += data);
-    child.stderr.on('data', error => reject(error.toString()));
+    childProcess.stdout.on('data', data => result += data);
+    childProcess.stderr.on('data', error => reject(error.toString()));
     // slice removes last comma
-    child.on('close', () => resolve(`[${result.slice(0, -1)}]`));
+    childProcess.on('close', () => resolve(`[${result.slice(0, -1)}]`));
   });
 };
 
 const getCommitDiff = (dirPath, { repositoryId, commitHash }) => {
   return new Promise(((resolve, reject) => {
-    const child = spawn(
+    const childProcess = child.spawn(
       'git',
       ['show', commitHash, '-m', '--format="%b"'],
       {
@@ -53,9 +53,9 @@ const getCommitDiff = (dirPath, { repositoryId, commitHash }) => {
     );
     let result = '';
 
-    child.stdout.on('data', data => result += data);
-    child.stderr.on('data', error => reject(error.toString()));
-    child.on('close', () => resolve(result));
+    childProcess.stdout.on('data', data => result += data);
+    childProcess.stderr.on('data', error => reject(error.toString()));
+    childProcess.on('close', () => resolve(result));
   }));
 };
 
@@ -67,7 +67,7 @@ const getRepoContent = (dirPath, { repositoryId, commitHash, path }) => {
       gitArgs.push(`${path}/`);
     }
 
-    const child = spawn(
+    const childProcess = child.spawn(
       'git',
       gitArgs,
       {
@@ -76,14 +76,14 @@ const getRepoContent = (dirPath, { repositoryId, commitHash, path }) => {
     );
     let result = [];
 
-    child.stdout.on('data', data => result.push(...parseLsTreeLog(data.toString())));
-    child.stderr.on('data', error => reject(error.toString()));
-    child.on('close', () => resolve(result));
+    childProcess.stdout.on('data', data => result.push(...parseLsTreeLog(data.toString())));
+    childProcess.stderr.on('data', error => reject(error.toString()));
+    childProcess.on('close', () => resolve(result));
   })
 };
 
 const getFileContent = (dirPath, { repositoryId, commitHash, pathToFile }, onDataCb, onErrCb, onCloseCb) => {
-  const child = spawn(
+  const childProcess = child.spawn(
     'git',
     ['show', `${commitHash}:${pathToFile}`],
     {
@@ -91,9 +91,9 @@ const getFileContent = (dirPath, { repositoryId, commitHash, pathToFile }, onDat
     }
   );
 
-  child.stdout.on('data', onDataCb);
-  child.stderr.on('data', onErrCb);
-  child.on('close', onCloseCb);
+  childProcess.stdout.on('data', onDataCb);
+  childProcess.stderr.on('data', onErrCb);
+  childProcess.on('close', onCloseCb);
 };
 
 const deleteRepo = (dirPath, { repositoryId }) => fse.remove(join(dirPath, repositoryId));
