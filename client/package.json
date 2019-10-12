@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
-    "chai": "^4.2.0",
-    "hermione": "^2.12.6",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
     "react-redux": "^7.1.1",
@@ -19,7 +17,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "hermione": "./node_modules/.bin/hermione gui ./tests/hermione/tests.hermione.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +36,8 @@
     ]
   },
   "devDependencies": {
+    "hermione": "^2.13.0",
+    "html-reporter": "^5.0.1",
     "node-sass": "^4.12.0"
   }
 }
