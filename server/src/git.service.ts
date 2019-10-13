@@ -1,30 +1,40 @@
-const fs = require('fs');
-const fse = require('fs-extra');
-const child = require('child_process');
-const { join } = require('path');
-const { promisify } = require('util');
-const { parseLsTreeLog } = require('./utils');
+import fs from 'fs';
+import fse from 'fs-extra';
+import child from 'child_process';
+import { join } from 'path';
+import { promisify } from 'util';
+
+import { parseLsTreeLog } from './utils';
+import {
+  AddRepo,
+  DeleteRepo,
+  GetCommitDiff,
+  GetCommitList,
+  GetFileContent,
+  GetRepoContent,
+  RepositoryEntry
+} from './models/git';
 
 const promisifiedReadDir = promisify(fs.readdir);
 
-const getRepoList = dirPath => promisifiedReadDir(dirPath, 'utf8');
+const getRepoList = (dirPath: string): Promise<Array<string>> => promisifiedReadDir(dirPath, 'utf8');
 
-const addRepo = (dirPath, { url }) => {
+const addRepo = (dirPath: string, { url }: AddRepo): Promise<void> => {
   const CHILD_PROCESS_TIMEOUT = 60 * 10 ** 3;
   return new Promise((resolve, reject) => {
     const childProcess = child.spawn('git', ['clone', url, '-q'], { cwd: dirPath });
 
-    // setTimeout(() => {
-    //   childProcess.kill();
-    //   reject('Timeout exceeded');
-    // }, CHILD_PROCESS_TIMEOUT);
+    setTimeout(() => {
+      childProcess.kill();
+      reject('Timeout exceeded');
+    }, CHILD_PROCESS_TIMEOUT);
 
     childProcess.stderr.on('data', error => reject(error.toString()));
     childProcess.on('close', () => resolve());
   });
 };
 
-const getCommitList = (dirPath, { repositoryId, commitHash }) => {
+const getCommitList = (dirPath: string, { repositoryId, commitHash }: GetCommitList): Promise<string> => {
   return new Promise((resolve, reject) => {
     const childProcess = child.spawn(
       'git',
@@ -42,7 +52,7 @@ const getCommitList = (dirPath, { repositoryId, commitHash }) => {
   });
 };
 
-const getCommitDiff = (dirPath, { repositoryId, commitHash }) => {
+const getCommitDiff = (dirPath: string, { repositoryId, commitHash }: GetCommitDiff): Promise<string> => {
   return new Promise(((resolve, reject) => {
     const childProcess = child.spawn(
       'git',
@@ -59,7 +69,7 @@ const getCommitDiff = (dirPath, { repositoryId, commitHash }) => {
   }));
 };
 
-const getRepoContent = (dirPath, { repositoryId, commitHash, path }) => {
+const getRepoContent = (dirPath: string, { repositoryId, commitHash, path }: GetRepoContent): Promise<Array<RepositoryEntry>> => {
   return new Promise((resolve, reject) => {
     const gitArgs = ['ls-tree', commitHash || 'master'];
 
@@ -74,7 +84,7 @@ const getRepoContent = (dirPath, { repositoryId, commitHash, path }) => {
         cwd: join(dirPath, repositoryId),
       },
     );
-    let result = [];
+    let result: Array<RepositoryEntry> = [];
 
     childProcess.stdout.on('data', data => result.push(...parseLsTreeLog(data.toString())));
     childProcess.stderr.on('data', error => reject(error.toString()));
@@ -82,7 +92,13 @@ const getRepoContent = (dirPath, { repositoryId, commitHash, path }) => {
   })
 };
 
-const getFileContent = (dirPath, { repositoryId, commitHash, pathToFile }, onDataCb, onErrCb, onCloseCb) => {
+const getFileContent = (
+  dirPath: string,
+  { repositoryId, commitHash, pathToFile }: GetFileContent,
+  onDataCb: (data: string) => void,
+  onErrCb: (data: Buffer) => void,
+  onCloseCb: () => void,
+): void => {
   const childProcess = child.spawn(
     'git',
     ['show', `${commitHash}:${pathToFile}`],
@@ -96,9 +112,9 @@ const getFileContent = (dirPath, { repositoryId, commitHash, pathToFile }, onDat
   childProcess.on('close', onCloseCb);
 };
 
-const deleteRepo = (dirPath, { repositoryId }) => fse.remove(join(dirPath, repositoryId));
+const deleteRepo = (dirPath: string, { repositoryId }: DeleteRepo): Promise<void> => fse.remove(join(dirPath, repositoryId));
 
-module.exports = {
+export default {
   getRepoList,
   addRepo,
   getCommitList,

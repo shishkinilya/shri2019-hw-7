@@ -4,7 +4,7 @@ const child = require('child_process');
 const sinon = require('sinon');
 const chai = require('chai');
 
-const gitService = require('../git.service');
+const gitService = require('server/src/git.service');
 
 describe('GitService', () => {
   let spawn;

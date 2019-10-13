@@ -1,5 +1,7 @@
-function parseLsTreeLog(log) {
-  const result = [];
+import { RepositoryEntry } from "./models/git";
+
+export function parseLsTreeLog(log: string): Array<RepositoryEntry> {
+  const result: Array<RepositoryEntry> = [];
   const entries = log.split('\n').filter(entry => !!entry);
 
   entries.forEach((entry) => {
@@ -11,7 +13,3 @@ function parseLsTreeLog(log) {
 
   return result;
 }
-
-module.exports = {
-  parseLsTreeLog
-};
