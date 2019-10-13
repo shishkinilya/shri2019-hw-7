@@ -2,7 +2,11 @@ import React from 'react';
 
 import './username.scss';
 
-export default function Username({ children }) {
+interface UsernameProps {
+  children: React.ReactNode;
+}
+
+export default function Username({ children }: UsernameProps) {
   return (
     <span className="Username">{children}</span>
   );

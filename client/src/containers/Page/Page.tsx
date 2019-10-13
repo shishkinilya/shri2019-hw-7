@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Header from 'components/Header/Header';
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs';
@@ -12,19 +13,30 @@ import fetchRepos from 'store/repos/fetchRepos';
 import fetchRepositoryContent from 'store/repository/fetchRepositoryContent';
 import Username from 'components/Username/Username';
 import { setCurrentRepository } from 'store/repos/actions';
+import { AppState } from 'store/types';
+import { ReposState } from 'store/repos/types';
+import { RepositoryState } from 'store/repository/types';
 
 import { ReactComponent as DropdownArrowIcon } from './dropdown-arrow.svg';
 import './page.scss';
 import './theme.scss';
 
-class Page extends React.Component {
+interface PageProps {
+  repos: ReposState;
+  repository: RepositoryState;
+  fetchRepos: typeof fetchRepos;
+  fetchRepositoryContent: typeof fetchRepositoryContent;
+  setCurrentRepository: typeof setCurrentRepository;
+}
+
+class Page extends React.Component<RouteComponentProps<Record<string, string>> & PageProps> {
   async componentDidMount() {
     await this.props.fetchRepos();
     this.props.setCurrentRepository(this.props.match.params[0].split('/')[0]);
   }
 
-  changeRepoHandler = (event) => {
-    const { value: repositoryId } = event.target;
+  changeRepoHandler = (event: React.FormEvent<HTMLSelectElement>) => {
+    const { value: repositoryId } = event.currentTarget;
     this.props.history.push(`/${repositoryId}`);
     this.props.setCurrentRepository(repositoryId);
     this.props.fetchRepositoryContent(repositoryId);
@@ -77,12 +89,12 @@ class Page extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: AppState) => {
   const { repos, repository } = state;
   return { repos, repository };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   fetchRepos,
   fetchRepositoryContent,
   setCurrentRepository,

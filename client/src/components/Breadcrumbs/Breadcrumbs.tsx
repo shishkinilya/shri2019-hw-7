@@ -2,9 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import { RepositoryState } from 'store/repository/types';
+import { ReposState } from 'store/repos/types';
+import { AppState } from 'store/types';
+
 import './breadcrumbs.scss';
 
-class Breadcrumbs extends React.Component {
+interface BreadcrumbsProps {
+  repos: ReposState;
+  repository: RepositoryState;
+  className: string;
+}
+
+class Breadcrumbs extends React.Component<BreadcrumbsProps> {
   render() {
     const { currentPath } = this.props.repository;
 
@@ -37,7 +47,7 @@ class Breadcrumbs extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppState) => {
   const { repository, repos } = state;
   return { repository, repos };
 };

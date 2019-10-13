@@ -1,12 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import LOADING_STATUSES from 'constants/loadingStatuses';
+import LoadingStatuses from 'constants/loadingStatuses';
+import { ReposState } from 'store/repos/types';
 
 import './header.scss';
 import logo from './logo.svg'
 
-export default function Header({ className, repos, changeRepoHandler }) {
+interface HeaderProps {
+  className: string;
+  repos: ReposState;
+  changeRepoHandler: (event: React.FormEvent<HTMLSelectElement>) => void;
+}
+
+export default function Header({ className, repos, changeRepoHandler }: HeaderProps) {
   return (
     <header className={`Header ${className}`}>
       <div className="Header-Inner Page-Container">
@@ -24,7 +31,7 @@ export default function Header({ className, repos, changeRepoHandler }) {
         {/*  </button>*/}
         {/*</div>*/}
         <select onChange={changeRepoHandler} value={repos.currentRepository}>
-          {repos.status === LOADING_STATUSES.LOADING ? (
+          {repos.status === LoadingStatuses.LOADING ? (
             <option>Загрузка...</option>
           ) : (
             <>

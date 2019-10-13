@@ -1,36 +1,43 @@
 import LOADING_STATUSES from 'constants/loadingStatuses';
-import REPOSITORY_ACTIONS from './actions';
+import {
+  GET_REPOSITORY_CONTENT,
+  GET_REPOSITORY_CONTENT_FAIL,
+  GET_REPOSITORY_CONTENT_SUCCESS,
+  SET_CURRENT_PATH,
+  RepositoryActionTypes,
+  RepositoryState,
+} from './types';
 
-const initialState = {
+const initialState: RepositoryState = {
   content: [],
   status: LOADING_STATUSES.SUCCESS,
   currentBranch: 'master',
-  currentPath: ''
+  currentPath: '',
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: RepositoryActionTypes): RepositoryState => {
   switch (action.type) {
-    case REPOSITORY_ACTIONS.GET_REPOSITORY_CONTENT:
+    case GET_REPOSITORY_CONTENT:
       return {
         ...state,
         status: LOADING_STATUSES.LOADING,
       };
 
-    case REPOSITORY_ACTIONS.GET_REPOSITORY_CONTENT_SUCCESS:
+    case GET_REPOSITORY_CONTENT_SUCCESS:
       return {
         ...state,
         content: action.payload.content,
         status: LOADING_STATUSES.SUCCESS,
       };
 
-    case REPOSITORY_ACTIONS.GET_REPOSITORY_CONTENT_FAIL:
+    case GET_REPOSITORY_CONTENT_FAIL:
       return {
         ...state,
         content: [],
         status: LOADING_STATUSES.FAIL,
       };
 
-    case REPOSITORY_ACTIONS.SET_CURRENT_PATH:
+    case SET_CURRENT_PATH:
       return {
         ...state,
         currentPath: action.payload.path,

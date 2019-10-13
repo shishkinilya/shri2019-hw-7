@@ -1,8 +1,10 @@
+import { Dispatch } from 'redux';
+
 import apiClient from 'apiClient';
 import { getRepos, getReposFail, getReposSuccess } from 'store/repos/actions';
 
 const fetchRepos = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     dispatch(getRepos());
 
     try {

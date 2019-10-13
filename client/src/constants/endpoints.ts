@@ -1,12 +1,12 @@
 const REPOS = 'repos';
-const repoContent = (repositoryId, commitHash, path) => {
+const repoContent = (repositoryId: string, commitHash?: string, path?: string) => {
   if (!(commitHash || path)) {
     return `repos/${repositoryId}`;
   }
 
   return `repos/${repositoryId}/tree/${commitHash || 'master'}${path ? `/${path}` : ''}`;
 };
-const blobContent = (repositoryId, commitHash, path) => {
+const blobContent = (repositoryId: string, commitHash: string, path: string) => {
   return `repos/${repositoryId}/blob/${commitHash}/${path}`;
 };
 

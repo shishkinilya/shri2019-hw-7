@@ -4,7 +4,11 @@ import Link from 'components/Link/Link';
 
 import './footer.scss';
 
-export default function Footer(props) {
+interface FooterProps {
+  className: string;
+}
+
+export default function Footer(props: FooterProps) {
   return (
     <footer className={`Footer ${props.className}`}>
       <div className="Footer-Company">Trade secrets of Yandex LLC. 16, Lev Tolstoy Str., Moscow, Russia, 119021</div>

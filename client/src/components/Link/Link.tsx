@@ -3,7 +3,13 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import './link.scss';
 
-export default function Link(props) {
+interface LinkProps {
+  target: string;
+  to: string;
+  children: React.ReactNode;
+}
+
+export default function Link(props: LinkProps) {
   const target = props.target ? { target: props.target } : {};
   const isExternal = /^https?/.test(props.to);
 

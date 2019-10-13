@@ -1,13 +1,21 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 
 import fetchBlobContent from 'store/blob/fetchBlobContent';
 
 import './code-view.scss';
 import './code-viewer.scss';
+import { AppState } from "../../store/types";
+import { BlobState } from "../../store/blob/types";
 
-class FileDetail extends React.Component {
+interface FileDetailProps {
+  blob: BlobState;
+  fetchBlobContent: typeof fetchBlobContent;
+}
+
+class FileDetail extends React.Component<RouteComponentProps<Record<string, string>> & FileDetailProps> {
   componentDidMount() {
     const { fetchBlobContent } = this.props;
     const { repositoryId, branch, path } = this.props.match.params;
@@ -53,16 +61,11 @@ class FileDetail extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: AppState) => {
   const { blob } = state;
   return { blob };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchBlobContent,
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ fetchBlobContent }, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FileDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(FileDetail);

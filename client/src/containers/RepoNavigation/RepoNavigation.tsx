@@ -1,16 +1,24 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, RouteComponentProps } from 'react-router-dom';
 
 import fetchRepositoryContent from 'store/repository/fetchRepositoryContent';
 import { setCurrentPath } from 'store/repository/actions';
+import { AppState } from 'store/types';
+import { RepositoryItem, RepositoryState } from 'store/repository/types';
 
 import './files-table.scss';
 import { ReactComponent as DirectoryIcon } from './directory.svg';
 import { ReactComponent as FileCodeIcon } from './file-code.svg';
 
-class RepoNavigation extends React.Component {
+interface RepoNavigationProps {
+  repository: RepositoryState;
+  setCurrentPath: typeof setCurrentPath;
+  fetchRepositoryContent: typeof fetchRepositoryContent;
+}
+
+class RepoNavigation extends React.Component<RouteComponentProps<Record<string, string>> & RepoNavigationProps> {
   componentDidMount() {
     const { repositoryId, path, branch } = this.props.match.params;
 
@@ -18,7 +26,7 @@ class RepoNavigation extends React.Component {
     this.props.fetchRepositoryContent(repositoryId, branch, path);
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps: RouteComponentProps<Record<string, string>> & RepoNavigationProps) {
     const { path: prevPath } = prevProps.match.params;
     const { repositoryId, path: currentPath } = this.props.match.params;
     const { currentBranch } = this.props.repository;
@@ -29,7 +37,7 @@ class RepoNavigation extends React.Component {
     }
   }
 
-  getEntityPath(entity) {
+  getEntityPath(entity: RepositoryItem) {
     return `/${this.props.match.params.repositoryId}/${entity.type}/${this.props.repository.currentBranch}/${entity.name}`;
   }
 
@@ -90,12 +98,12 @@ class RepoNavigation extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppState) => {
   const { repository, repos } = state;
   return { repository, repos };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
   fetchRepositoryContent,
   setCurrentPath,
 }, dispatch);
